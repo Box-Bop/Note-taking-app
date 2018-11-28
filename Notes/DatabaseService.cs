@@ -41,10 +41,14 @@ namespace Notes
         public void AddPost(string title, string content)
         {
             var newPost = new Note();
-            newPost.NoteTitle = "SQLite notes";
-            newPost.NoteContent = "Make an SQLite note taking app";
+            newPost.NoteTitle = title;
+            newPost.NoteContent = content;
             newPost.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             db.Insert(newPost);
+        }
+        public void EditPost()
+        {
+
         }
 
         public void DeletePost(long id)

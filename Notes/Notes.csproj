@@ -60,6 +60,8 @@
     <Compile Include="DatabaseService.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="EditNote.cs" />
+    <Compile Include="NoteEditAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -102,6 +104,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\note_layout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\edit_note_layout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

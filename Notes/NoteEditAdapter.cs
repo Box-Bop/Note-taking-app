@@ -12,23 +12,24 @@ using Android.Widget;
 
 namespace Notes
 {
-    class CustomAdapter : BaseAdapter<Note>
+    class NoteEditAdapter : BaseAdapter<Note>
     {
-        List<Note> items;
+        string title;
+        string content;
         Activity context;
-        public CustomAdapter(Activity context, List<Note> items) : base()
+        public NoteEditAdapter(Activity context, string title, string content) : base()
         {
             this.context = context;
-            this.items = items;
-
+            this.title = title;
+            this.content = content;
         }
 
         public override Note this[int position]
         {
-            get { return items[position]; }
+            get { return null; }
         }
 
-        public override int Count { get { return items.Count; } }
+        public override int Count { get { return 1; } }
 
         public override long GetItemId(int position)
         {
@@ -39,10 +40,9 @@ namespace Notes
         {
             View view = convertView; // re-use an existing view, if one is available
             if (view == null) // otherwise create a new one
-                view = context.LayoutInflater.Inflate(Resource.Layout.note_layout, null);
-            view.FindViewById<TextView>(Resource.Id.textView1).Text = items[position].NoteTitle;
-            view.FindViewById<TextView>(Resource.Id.textView2).Text = items[position].NoteContent;
-            view.FindViewById<TextView>(Resource.Id.textView3).Text = items[position].PostTime;
+                view = context.LayoutInflater.Inflate(Resource.Layout.edit_note_layout, null);
+            view.FindViewById<EditText>(Resource.Id.textInputEditText1).Text = title;
+            view.FindViewById<EditText>(Resource.Id.textInputEditText2).Text = content;
             return view;
         }
     }
