@@ -24,7 +24,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:textAlignment="viewEnd"
-			android:id="@+id/textView3" />
+			android:id="@+id/textView3"
+			android:layout_marginRight="8.5dp" />
 	</LinearLayout>
 		<LinearLayout
 		android:orientation="horizontal"
