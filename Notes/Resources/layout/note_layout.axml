@@ -10,11 +10,12 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/linearLayout1"
-		android:layout_marginLeft="100.0dp"
+		android:layout_marginLeft="24.0dp"
 		android:layout_marginTop="5.5dp">
 		<TextView
 			android:text="Large Text"
 			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:maxWidth="700px"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/textView1" />
