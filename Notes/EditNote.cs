@@ -34,7 +34,10 @@ namespace Notes
             var newNote = new Note();
             var newNoteTitle = FindViewById<EditText>(Resource.Id.textInputEditText1);
             var newNoteContent = FindViewById<EditText>(Resource.Id.textInputEditText2);
-            DatabaseService.EditNote(newNoteContent.Text, newNoteContent.Text, editingNoteId);
+            DatabaseService.EditNote(newNoteTitle.Text, newNoteContent.Text, editingNoteId);
+            var intent = new Intent(this, typeof(MainActivity))
+                   .SetFlags(ActivityFlags.ReorderToFront);
+            StartActivity(intent);
         }
 
         public void PresentNote(string title, string content)

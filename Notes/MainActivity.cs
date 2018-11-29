@@ -38,16 +38,16 @@ namespace Notes
                 alert.SetMessage("Choose what you want to do:");
                 alert.SetButton("Delete", (c, ev) =>
                 {
-                    var stockID = notes.ToList()[e.Position];
+                    var noteID = notes.ToList()[e.Position];
                     //var itemToDelete = stockListView.GetItemAtPosition(e.Position);
-                    DatabaseService.DeleteNote(stockID.Id);
+                    DatabaseService.DeleteNote(noteID.Id);
 
                     notes = DatabaseService.GetAllNotes();
                     noteListView.Adapter = new CustomAdapter(this, notes.ToList());
                 });
+                //Just a blank button so that "edit" and "delete" would be on the left and right.
                 alert.SetButton2("\u200B            ", (c, ev) =>
                 {
-                    System.Console.WriteLine("");
                 });
                 alert.SetButton3("Edit", (c, ev) =>
                 {
@@ -56,9 +56,6 @@ namespace Notes
                     intent.PutExtra("EditContent", notes.ToList()[e.Position].NoteContent);
                     intent.PutExtra("NoteID", notes.ToList()[e.Position].Id);
                     StartActivity(intent);
-
-                    notes = DatabaseService.GetAllNotes();
-                    noteListView.Adapter = new CustomAdapter(this, notes.ToList());
                 });
                 alert.Show();
             };
@@ -75,6 +72,13 @@ namespace Notes
                 addNoteEditText.Text = "";
                 addNoteContentEditText.Text = "";
             };
+        }
+        protected override void OnPostResume()
+        {
+            base.OnPostResume();
+            var notes = DatabaseService.GetAllNotes();
+            var noteListView = FindViewById<ListView>(Resource.Id.listView1);
+            noteListView.Adapter = new CustomAdapter(this, notes.ToList());
         }
     }
 }
