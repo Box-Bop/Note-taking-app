@@ -14,49 +14,54 @@ using SQLite;
 
 namespace Notes
 {
-    class DatabaseService
+    static class DatabaseService
     {
-        SQLiteConnection db;
+        static SQLiteConnection db;
 
-        public void CreateDatabase()
+        public static void CreateDatabase()
         {
             string dbPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "mydatabase.db3");
             db = new SQLiteConnection(dbPath);
             db.CreateTable<Note>();
         }
 
-        public void CreateTableWithData()
+        public static void CreateTableWithData()
         {
             db.CreateTable<Note>();
             if (db.Table<Note>().Count() == 0)
             {
-                var newPost = new Note();
-                newPost.NoteTitle = "SQLite notes";
-                newPost.NoteContent = "Make an SQLite note taking app";
-                newPost.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-                db.Insert(newPost);
+                var newNote = new Note();
+                newNote.NoteTitle = "SQLite notes";
+                newNote.NoteContent = "Make an SQLite note taking app";
+                newNote.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+                db.Insert(newNote);
             }
         }
 
-        public void AddPost(string title, string content)
+        public static void AddNote(string title, string content)
         {
-            var newPost = new Note();
-            newPost.NoteTitle = title;
-            newPost.NoteContent = content;
-            newPost.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
-            db.Insert(newPost);
+            var newNote = new Note();
+            newNote.NoteTitle = title;
+            newNote.NoteContent = content;
+            newNote.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            db.Insert(newNote);
         }
-        public void EditPost()
+        public static void EditNote(string newTitle, string newContent, long id)
         {
-
+            var editedNote = new Note();
+            editedNote.Id = id;
+            editedNote.NoteTitle = newTitle;
+            editedNote.NoteContent = newContent;
+            editedNote.PostTime = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
+            db.Update(editedNote);
         }
 
-        public void DeletePost(long id)
+        public static void DeleteNote(long id)
         {
             db.Delete<Note>(id);
         }
 
-        public TableQuery<Note> GetAllPosts()
+        public static TableQuery<Note> GetAllNotes()
         {
             var table = db.Table<Note>();
             return table;

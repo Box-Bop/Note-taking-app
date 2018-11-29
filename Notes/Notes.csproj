@@ -61,7 +61,6 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="EditNote.cs" />
-    <Compile Include="NoteEditAdapter.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -24,46 +24,53 @@ namespace Notes
             var addNoteContentEditText = FindViewById<EditText>(Resource.Id.editText2);
             var addNoteButton = FindViewById<Button>(Resource.Id.button1);
 
-            var databaseService = new DatabaseService();
-            databaseService.CreateDatabase();
-            databaseService.CreateTableWithData();
-            var posts = databaseService.GetAllPosts();
+            DatabaseService.CreateDatabase();
+            DatabaseService.CreateTableWithData();
+            var notes = DatabaseService.GetAllNotes();
 
-            noteListView.Adapter = new CustomAdapter(this, posts.ToList());
+            noteListView.Adapter = new CustomAdapter(this, notes.ToList());
 
             noteListView.ItemClick += (object sender, ItemClickEventArgs e) =>
             {
                 Android.App.AlertDialog.Builder dialog = new Android.App.AlertDialog.Builder(this);
                 Android.App.AlertDialog alert = dialog.Create();
-                alert.SetTitle("\"" + posts.ToList()[e.Position].NoteTitle + "\"");
+                alert.SetTitle("\"" + notes.ToList()[e.Position].NoteTitle + "\"");
                 alert.SetMessage("Choose what you want to do:");
-                alert.SetButton("Edit", (c, ev) =>
+                alert.SetButton("Delete", (c, ev) =>
+                {
+                    var stockID = notes.ToList()[e.Position];
+                    //var itemToDelete = stockListView.GetItemAtPosition(e.Position);
+                    DatabaseService.DeleteNote(stockID.Id);
+
+                    notes = DatabaseService.GetAllNotes();
+                    noteListView.Adapter = new CustomAdapter(this, notes.ToList());
+                });
+                alert.SetButton2("\u200B            ", (c, ev) =>
+                {
+                    System.Console.WriteLine("");
+                });
+                alert.SetButton3("Edit", (c, ev) =>
                 {
                     var intent = new Intent(this, typeof(EditNote));
-                    intent.PutExtra("EditTitle", posts.ToList()[e.Position].NoteTitle);
-                    intent.PutExtra("EditContent", posts.ToList()[e.Position].NoteContent);
+                    intent.PutExtra("EditTitle", notes.ToList()[e.Position].NoteTitle);
+                    intent.PutExtra("EditContent", notes.ToList()[e.Position].NoteContent);
+                    intent.PutExtra("NoteID", notes.ToList()[e.Position].Id);
                     StartActivity(intent);
-                });
-                alert.SetButton2("Delete", (c, ev) =>
-                {
-                    var stockID = posts.ToList()[e.Position];
-                    //var itemToDelete = stockListView.GetItemAtPosition(e.Position);
-                    databaseService.DeletePost(stockID.Id);
 
-                    posts = databaseService.GetAllPosts();
-                    noteListView.Adapter = new CustomAdapter(this, posts.ToList());
+                    notes = DatabaseService.GetAllNotes();
+                    noteListView.Adapter = new CustomAdapter(this, notes.ToList());
                 });
                 alert.Show();
             };
 
             addNoteButton.Click += delegate
             {
-                var postTitle = addNoteEditText.Text;
-                var postContent = addNoteContentEditText.Text;
-                databaseService.AddPost(postTitle, postContent);
+                var noteTitle = addNoteEditText.Text;
+                var noteContent = addNoteContentEditText.Text;
+                DatabaseService.AddNote(noteTitle, noteContent);
 
-                posts = databaseService.GetAllPosts();
-                noteListView.Adapter = new CustomAdapter(this, posts.ToList());
+                notes = DatabaseService.GetAllNotes();
+                noteListView.Adapter = new CustomAdapter(this, notes.ToList());
 
                 addNoteEditText.Text = "";
                 addNoteContentEditText.Text = "";
